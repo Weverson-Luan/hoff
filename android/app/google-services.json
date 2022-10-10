@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "680962317714",
+    "project_id": "hoff-de0c4",
+    "storage_bucket": "hoff-de0c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680962317714:android:35425b40d85649179b754b",
+        "android_client_info": {
+          "package_name": "com.hoff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680962317714-7d5ihna5l2foucdb8lh3ee4e587kisd5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hoff",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "680962317714-gm5c7fri6lkogsadeh6es0794pdr1p93.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFWJqdeb9U-QGR2IWfOEOE_fH9Zst-tJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680962317714-gm5c7fri6lkogsadeh6es0794pdr1p93.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
