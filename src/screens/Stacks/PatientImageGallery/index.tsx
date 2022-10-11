@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Alert, FlatList} from 'react-native';
+import {Alert, FlatList, ImageProps} from 'react-native';
 import {useTheme} from 'styled-components';
 import {useNavigation, useRoute} from '@react-navigation/native';
 

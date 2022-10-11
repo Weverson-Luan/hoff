@@ -120,7 +120,13 @@ export function NewPatientsInfo() {
     <Wrapper>
       {imageSelect ? (
         <WrapperImage>
-          <Image source={{uri: imageSelect}} />
+          <Image
+            source={{
+              uri: imageSelect
+                ? imageSelect
+                : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
+            }}
+          />
         </WrapperImage>
       ) : (
         <>
