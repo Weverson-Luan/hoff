@@ -147,45 +147,37 @@ export function CapturePhoto() {
       CameraRoll.save(String(result?.path), {type: 'photo'});
       setImage(String(result?.path));
       pickPicture(String(`file:${result?.path}`));
-      // if (position) {
-      //   setCollageProgress(true);
-      //   const photos: any = {
-      //     uri: imageCropper,
-      //     type: 'image/jpeg',
-      //     name: 'photo.jpg',
-      //   };
-      //   const data = new FormData() as any;
-      //   data.append('file', photos);
-      //   data.append('consulta_id', patient_query);
-      //   data.append('posicao', position);
-      //   const key = '@login_user';
-      //   const token = await AsyncStorage.getItem(key);
-      //   const tokenTransform: IResponseToken = JSON.parse(token as string);
-      //   console.log('DATA ENVIADA', data);
-      //   console.log('IMAGE ENVIADA', img);
-      //   handleCreatePhotoCollage(data, tokenTransform.token)
-      //     .then((_responseCollage: any) => {
-      //       setCollageProgress(false);
-      //       return navigation.navigate('Analyze', {
-      //         patient_id,
-      //         patientQuery: patient_query,
-      //       });
-      //     })
-      //     .catch(_error => {
-      //       return Alert.alert(
-      //         'Colagem de fotos',
-      //         'Error em fazer a criação de uma colagem para um usuário !',
-      //       );
-      //     });
-      //   return;
-      // }
+      if (position) {
+        setCollageProgress(true);
+        const photos: any = {
+          uri: imageCropper,
+          type: 'image/jpeg',
+          name: 'photo.jpg',
+        };
+        const data = new FormData() as any;
+        data.append('file', photos);
+        data.append('consulta_id', patient_query);
+        data.append('posicao', position);
+        const key = '@login_user';
+        const token = await AsyncStorage.getItem(key);
+        const tokenTransform: IResponseToken = JSON.parse(token as string);
 
-      // return navigation.navigate('PatientsCategory', {
-      //   img: imageCropper,
-      //   patient_id,
-      //   name,
-      //   register,
-      // });
+        handleCreatePhotoCollage(data, tokenTransform.token)
+          .then((_responseCollage: any) => {
+            setCollageProgress(false);
+            return navigation.navigate('Analyze', {
+              patient_id,
+              patientQuery: patient_query,
+            });
+          })
+          .catch(_error => {
+            return Alert.alert(
+              'Colagem de fotos',
+              'Error em fazer a criação de uma colagem para um usuário !',
+            );
+          });
+        return;
+      }
     }
   };
 
@@ -249,8 +241,6 @@ export function CapturePhoto() {
         name,
         register,
       });
-
-      // console.log(image);
     });
   };
 

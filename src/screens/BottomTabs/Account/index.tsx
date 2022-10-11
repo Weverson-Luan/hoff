@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Alert, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { PickerImage } from '../../../utils/select-picker-image';
+import {PickerImage} from '../../../utils/select-picker-image';
 
 //axios
 import axios from 'axios';
@@ -17,7 +17,6 @@ import {useTheme} from 'styled-components';
 import {Input} from '../../../components/Form/Input';
 import {Load} from '../../../components/Load';
 import {Button} from '../../../components/Form/Button';
-
 
 //typings-dto
 import {IResponseToken} from '../../../dtos/token';
@@ -100,14 +99,16 @@ export function Account() {
    */
   const removeTokenUser = async () => {
     await handleRemoveTokenUser('@login_user')
-      .then(res => console.log(res))
+      .then(res => {
+        return res;
+      })
       .catch(error => console.log('error em remover token', error));
   };
 
   /**
    * SELECT AN IMAGE ON USER DEVICE
    */
-   const handleImage = async () => {
+  const handleImage = async () => {
     try {
       const response = await PickerImage();
       response?.map(item => {
@@ -193,30 +194,36 @@ export function Account() {
         <>
           <WrapperBox>
             <View key={dataGoogle.id}>
-            <WrapperImage onPress={()=> handleImage()}>
-                 {
-                  !file?
+              <WrapperImage onPress={() => handleImage()}>
+                {!file ? (
                   <>
-                     <Image
-                        source={{ uri: dataGoogle.imagem ? dataGoogle.imagem :'https://api-hof.worktabsystems.com.br/images/default.jpeg'}}
-                      />
+                    <Image
+                      source={{
+                        uri: dataGoogle.imagem
+                          ? dataGoogle.imagem
+                          : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
+                      }}
+                    />
 
                     <WrapperTitle>
                       <Title>Mudar foto</Title>
                     </WrapperTitle>
                   </>
-
-                  :
+                ) : (
                   <>
-                     <Image
-                    source={{ uri: file ? file :'https://api-hof.worktabsystems.com.br/images/default.jpeg'}}
-                  />
+                    <Image
+                      source={{
+                        uri: file
+                          ? file
+                          : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
+                      }}
+                    />
 
-                  <WrapperTitle>
-                    <Title>Mudar foto</Title>
-                  </WrapperTitle>
+                    <WrapperTitle>
+                      <Title>Mudar foto</Title>
+                    </WrapperTitle>
                   </>
-                 }
+                )}
               </WrapperImage>
 
               <TitleGeneral>Dados gerais</TitleGeneral>
