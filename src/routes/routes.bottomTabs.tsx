@@ -32,56 +32,54 @@ const BottomTabNavigator = createBottomTabNavigator();
 export function BottomTabsNavigation({navigation}: any) {
   const theme = useTheme();
 
-  const [image, setImage] = React.useState("");
+  const [image, setImage] = React.useState('');
   const [_dataGoogle, setDataGoogle] = React.useState<IUser>({} as IUser);
-  React.useEffect(()=> {
+  React.useEffect(() => {
     const handleUserIsLogged = async () => {
-
-      const key = "@login_user";
-      const user_key = "@data_user"
+      const key = '@login_user';
+      const user_key = '@data_user';
       const token = await AsyncStorage.getItem(key);
 
       const tokenTransform: any = JSON.parse(token as string);
 
       getUsersInfo(tokenTransform?.token)
-      .then((response)=> {
-        setImage(response.data.data[0].imagem)
-        const transformDate = JSON.stringify(response.data);
-        AsyncStorage.setItem(user_key, transformDate);
-      })
-      .catch((error)=> {
-        const handleTokenGoogleUser = async()=> {
-        const key = "@user_account"; // key save user google
-        const user_key = "@data_user"// key data save user google
-        const token = await AsyncStorage.getItem(key);
+        .then(response => {
+          setImage(response.data.data[0].imagem);
+          const transformDate = JSON.stringify(response.data);
+          AsyncStorage.setItem(user_key, transformDate);
+        })
+        .catch(error => {
+          const handleTokenGoogleUser = async () => {
+            const key = '@user_account'; // key save user google
+            const user_key = '@data_user'; // key data save user google
+            const token = await AsyncStorage.getItem(key);
 
-        const tokenTransform = JSON.parse(token as string);
-        const tokenFormat = formatString(tokenTransform)
+            const tokenTransform = JSON.parse(token as string);
+            const tokenFormat = formatString(tokenTransform);
 
-        /**
-         * BUSCA NA API GOOGLE-CLOUD-PLATFORM
-         */
-        await axios
-        .get(
-        `https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${tokenFormat}`,
-        )
-        .then(async response => {
-          setDataGoogle(response.data);
-          const result_user = JSON.stringify(response.data);
+            /**
+             * BUSCA NA API GOOGLE-CLOUD-PLATFORM
+             */
+            await axios
+              .get(
+                `https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${tokenFormat}`,
+              )
+              .then(async response => {
+                setDataGoogle(response.data);
+                const result_user = JSON.stringify(response.data);
 
-         return  await AsyncStorage.setItem(user_key, result_user);
-      })
-      .catch(error => console.error("error serch user-google",error));
-
-        }
-        handleTokenGoogleUser()
-        console.error("error in list user", error)
-      });
+                return await AsyncStorage.setItem(user_key, result_user);
+              })
+              .catch(error => console.error('error serch user-google', error));
+          };
+          handleTokenGoogleUser();
+          console.error('error in list user', error);
+        });
       return tokenTransform;
-    }
+    };
 
-    handleUserIsLogged()
-  },[])
+    handleUserIsLogged();
+  }, []);
 
   return (
     <BottomTabNavigator.Navigator
@@ -235,7 +233,9 @@ export function BottomTabsNavigation({navigation}: any) {
             <Image
               style={{width: 30, height: 30, borderRadius: 50}}
               source={{
-                uri: image,
+                uri: image
+                  ? image
+                  : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
               }}
             />
           ),

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Modal, TouchableOpacity, Image as ImageModal } from "react-native";
-import { useTheme } from "styled-components";
+import React, {useState} from 'react';
+import {Modal, TouchableOpacity, Image as ImageModal} from 'react-native';
+import {useTheme} from 'styled-components';
 
 //assets
-import ArrowLeftSVG from "../../assets/closed.svg";
+import ArrowLeftSVG from '../../assets/closed.svg';
 
 //typings
-import { ImageProps } from "./index.d";
+import {ImageProps} from './index.d';
 
 //styled-components
 import {
@@ -17,10 +17,9 @@ import {
   WrapperTitle,
   Title,
   TitleWatch,
-} from "./styles";
+} from './styles';
 
-
-export function ZoomImage({ uri, description, analyze }: ImageProps) {
+export function ZoomImage({uri, description, analyze}: ImageProps) {
   const theme = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -28,8 +27,7 @@ export function ZoomImage({ uri, description, analyze }: ImageProps) {
     <Container>
       <Modal
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}
-      >
+        onRequestClose={() => setModalVisible(!modalVisible)}>
         <HeaderModal>
           <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
             <ArrowLeftSVG width={24} height={24} />
@@ -40,24 +38,30 @@ export function ZoomImage({ uri, description, analyze }: ImageProps) {
             accessibilityViewIsModal
             resizeMode="contain"
             style={{
-              width: "100%",
-              height: description ? "50%" : "100%",
+              width: '100%',
+              height: description ? '50%' : '100%',
               backgroundColor: theme.colors.brand_secondary,
             }}
-            source={{ uri: uri }}
+            source={{
+              uri: uri
+                ? uri
+                : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
+            }}
           />
           {description && <TitleWatch>Observações</TitleWatch>}
-          <WrapperTitle style={{ padding: description ? 12 : 0 }}>
+          <WrapperTitle style={{padding: description ? 12 : 0}}>
             <Title>{description}</Title>
           </WrapperTitle>
         </WrapperImage>
       </Modal>
 
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Image 
+        <Image
           analyze={analyze}
           source={{
-             uri: uri
+            uri: uri
+              ? uri
+              : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
           }}
         />
       </TouchableOpacity>

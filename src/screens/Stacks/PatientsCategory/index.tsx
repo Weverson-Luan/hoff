@@ -79,9 +79,7 @@ export function PatientsCategory() {
       <WrapperImage>
         <Image
           source={{
-            uri: `file:${img.replace('file:', '')}`
-              ? `file:${img.replace('file:', '')}`
-              : `file:${img.replace('file:', '')}`,
+            uri: img,
           }}
         />
       </WrapperImage>

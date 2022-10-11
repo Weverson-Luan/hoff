@@ -2,12 +2,7 @@ import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {useTheme} from 'styled-components';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {checkMultiple} from 'react-native-permissions';
-import {
-  View,
-  StyleSheet,
-  Alert,
-  PermissionsAndroid,
-} from 'react-native';
+import {View, StyleSheet, Alert, PermissionsAndroid} from 'react-native';
 import {
   Camera,
   useCameraDevices,
@@ -17,6 +12,9 @@ import {
 
 //async-storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//image-cropper
+import ImagePicker from 'react-native-image-crop-picker';
 
 //assets
 import PersonaSVG from '../../../assets/persona.svg';
@@ -74,6 +72,7 @@ export function CapturePhoto() {
   let {patient_id, patient_query, name, register, img, position} =
     params as PictureImageProps;
   const [image, setImage] = useState<string>('');
+  const [imageCropper, setImageCropper] = useState<any>();
   const [filter, setFilter] = useState<null | string>(null); //filter image.
   const [filter1, setFilter1] = useState<null | string>(null); //filter image.
   const [initValue, setInitValue] = useState(true); //value initial.
@@ -144,13 +143,14 @@ export function CapturePhoto() {
         flash: supportsFlash ? flash : 'off',
       };
       const result = await CameraRef?.current?.takePhoto(options);
-      console.log("IMAGE ENVIADA", result)
+
       CameraRoll.save(String(result?.path), {type: 'photo'});
       setImage(String(result?.path));
+      pickPicture(String(`file:${result?.path}`));
       if (position) {
         setCollageProgress(true);
         const photos: any = {
-          uri: `file:${img ? img: result?.path}`,
+          uri: imageCropper,
           type: 'image/jpeg',
           name: 'photo.jpg',
         };
@@ -161,8 +161,7 @@ export function CapturePhoto() {
         const key = '@login_user';
         const token = await AsyncStorage.getItem(key);
         const tokenTransform: IResponseToken = JSON.parse(token as string);
-        console.log("DATA ENVIADA", data)
-        console.log("IMAGE ENVIADA", img)
+
         handleCreatePhotoCollage(data, tokenTransform.token)
           .then((_responseCollage: any) => {
             setCollageProgress(false);
@@ -179,12 +178,6 @@ export function CapturePhoto() {
           });
         return;
       }
-      return navigation.navigate('PatientsCategory', {
-        img: result?.path,
-        patient_id,
-        name,
-        register,
-      });
     }
   };
 
@@ -229,12 +222,27 @@ export function CapturePhoto() {
   };
 
   /**
-   * UseEffect
+   * USING IMAGE-CROPPER
    */
-
-  /**
-   * PERMISSION CAMERA
-   */
+  const pickPicture = (path: string) => {
+    ImagePicker.openCropper({
+      path: path,
+      width: 300,
+      height: 400,
+      mediaType: 'photo',
+      freeStyleCropEnabled: true,
+      cropperStatusBarColor: theme.colors.brand_secondary,
+      cropperToolbarColor: theme.colors.brand_secondary,
+      cropperToolbarWidgetColor: theme.colors.brand_primary,
+    }).then(image => {
+      return navigation.navigate('PatientsCategory', {
+        img: image.path,
+        patient_id,
+        name,
+        register,
+      });
+    });
+  };
 
   return (
     <>
@@ -251,7 +259,9 @@ export function CapturePhoto() {
                   <WrapperClosed>
                     <Image
                       source={{
-                        uri: `file:${image}`,
+                        uri: image
+                          ? `file:${image}`
+                          : 'https://api-hof.worktabsystems.com.br/images/default.jpeg',
                       }}
                     />
                   </WrapperClosed>

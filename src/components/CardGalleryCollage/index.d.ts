@@ -13,6 +13,7 @@ interface IDataProps {
   patient_id: number;
   patient_query: number;
   position: number | boolean;
+  props: any;
 }
 
 
@@ -22,6 +23,10 @@ interface IFileProps{
   name: string;
 }
 
+
+interface AvatarProps extends ImageProps {
+  onChange?: (image: ImageOrVideo) => void;
+}
 
 /**
  * EXPORTS
